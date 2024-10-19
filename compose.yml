@@ -2,6 +2,6 @@ services:
   ktor-app:
     build: .
     ports:
-      - "61000:61000"
+      - "61000:8080"
     environment:
       - DISCORD_WEBHOOK_URL=${DISCORD_WEBHOOK_URL}
