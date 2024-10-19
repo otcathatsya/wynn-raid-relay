@@ -3,6 +3,5 @@ This server accepts POST requests from the mod and relays them to a discord webh
 
 Run it with docker:
 ```docker
-docker-compose build
-DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/your/webhook" docker-compose up
+DISCORD_WEBHOOK_URL="https://discord.com/api/webhooks/your/webhook" docker compose up --build
 ```
