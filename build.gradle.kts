@@ -26,6 +26,20 @@ dependencies {
 tasks.test {
     useJUnitPlatform()
 }
+
+tasks.create("buildFatJar", Jar::class) {
+    group = "build"
+    description = "Creates a fat JAR of the application"
+    manifest.attributes["Main-Class"] = "at.cath.RaidRelayKt"
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+    from(sourceSets.main.get().output)
+    dependsOn(configurations.runtimeClasspath)
+    from({
+        configurations.runtimeClasspath.get().filter { it.name.endsWith("jar") }.map { zipTree(it) }
+    })
+    with(tasks.jar.get())
+}
+
 kotlin {
     jvmToolchain(21)
 }

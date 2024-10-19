@@ -44,8 +44,11 @@ class RaidCooldownManager {
     }
 }
 
-fun main(args: Array<String>) {
-    val webhookUrl = parseWebhookUrl(args)
+fun main() {
+    val webhookUrl =
+        System.getenv("DISCORD_WEBHOOK_URL").takeIf {
+            it.matches(WEBHOOK_PATTERN)
+        } ?: throw IllegalArgumentException("DISCORD_WEBHOOK_URL is required")
     val cooldownManager = RaidCooldownManager()
 
     embeddedServer(Netty, port = 8080) {
@@ -82,12 +85,6 @@ fun main(args: Array<String>) {
             }
         }
     }.start(wait = true)
-}
-
-fun parseWebhookUrl(args: Array<String>): String {
-    val webhookArg = args.find { it.startsWith("--webhook=") }
-    return webhookArg?.substringAfter("=")?.takeIf { it.matches(WEBHOOK_PATTERN) }
-        ?: throw IllegalArgumentException("Correct webhook URL must be provided as --webhook=<url>")
 }
 
 suspend fun sendDiscordWebhook(webhookUrl: String, message: String): HttpResponse {
