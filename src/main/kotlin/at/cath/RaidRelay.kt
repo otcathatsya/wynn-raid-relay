@@ -16,7 +16,7 @@ import io.ktor.server.routing.*
 import kotlinx.serialization.Serializable
 import java.util.concurrent.ConcurrentHashMap
 
-private val WEBHOOK_PATTERN = "https://[^/]*\\.discord\\.com/api/webhooks/\\d+/[\\w-]+".toRegex()
+private val WEBHOOK_PATTERN = "https://(?:[\\w-]+\\.)?discord\\.com/api/webhooks/\\d+/[\\w-]+".toRegex()
 private val client = HttpClient(CIO)
 private val raids = mapOf(
     "The Canyon Colossus" to "https://static.wikia.nocookie.net/wynncraft_gamepedia_en/images/2/2d/TheCanyonColossusIcon.png",
