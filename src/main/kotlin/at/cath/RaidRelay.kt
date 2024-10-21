@@ -34,13 +34,13 @@ class RaidCooldownManager {
 
     fun shouldProcess(raidType: String): Boolean {
         val now = System.currentTimeMillis()
-        val lastProcessed = cooldowns[raidType]
-        return if (lastProcessed == null || now - lastProcessed > cooldownDuration) {
-            cooldowns[raidType] = now
-            true
-        } else {
-            false
-        }
+        return cooldowns.compute(raidType) { _, lastProcessed ->
+            if (lastProcessed == null || now - lastProcessed > cooldownDuration) {
+                now
+            } else {
+                lastProcessed
+            }
+        } == now
     }
 }
 
